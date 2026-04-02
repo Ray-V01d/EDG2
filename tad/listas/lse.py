@@ -1,8 +1,15 @@
+"""
+Módulo para implementar una lista simplemente enlazada.
+
+Autor: Ray
+Año: 2026
+Licencia: GNU GPL v2.0
+"""
 from tad.listas.nodos import NodoListaSimplementeEnlazada as NLSE
 
 
 class ListaSimplementeEnlazada:
-    """Clase que implementa el funcionamiento de una lista simplemente enlazada
+    """Implementaciónn de una lista simplemente enlazada.
     """
 
     def __init__(self):
@@ -87,14 +94,14 @@ class ListaSimplementeEnlazada:
         """
         salida = "📕"
         if self.es_vacia():
-            print(f"{salida} + Lista vacía")
+            print(f"{salida}" + " Lista vacía")
             return
         nodo_actual = self.__cab
 
         while nodo_actual:
-            salida += f"|{nodo_actual.dato}|"
+            salida += f" |{nodo_actual.dato}|"
             if nodo_actual.sig:
-                salida += " -> "
+                salida += " ->"
             nodo_actual = nodo_actual.sig
         print(salida)
 
