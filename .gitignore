@@ -14,5 +14,3 @@ venv/
 .mypy_cache/
 
 .tad/listas/lde.py
-.tad/listas/colas.py
-.tad/listas/pilas.py

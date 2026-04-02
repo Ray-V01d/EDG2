@@ -1,12 +1,21 @@
-from tad.listas.nodos import NodoListasSimplementeEnlazada
+"""
+Módulo de pruebas para la clase Nodo.
+
+Autor: Ray
+Año: 2026
+Licencia: GNU GPL v2.0
+"""
+
+
+from tad.listas.nodos import NodoListaSimplementeEnlazada
 
 if __name__ == "__main__":
 
-    nodo1 = NodoListasSimplementeEnlazada(5)
-    nodo2 = NodoListasSimplementeEnlazada(10)
-    nodo3 = NodoListasSimplementeEnlazada(15)
-    nodo4 = NodoListasSimplementeEnlazada(20)
-    nodo5 = NodoListasSimplementeEnlazada(25)
+    nodo1 = NodoListaSimplementeEnlazada(5)
+    nodo2 = NodoListaSimplementeEnlazada(10)
+    nodo3 = NodoListaSimplementeEnlazada(15)
+    nodo4 = NodoListaSimplementeEnlazada(20)
+    nodo5 = NodoListaSimplementeEnlazada(25)
 
 nodo1.sig = nodo2
 nodo1.sig.sig = nodo3

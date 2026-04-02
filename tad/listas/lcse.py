@@ -1,3 +1,12 @@
+"""
+Módulo para implementar una lista circular simplemente enlazada.
+
+Autor: Ray
+Año: 2026
+Licencia: GNU GPL v2.0
+"""
+
+
 from tad.listas.nodos import NodoListaSimplementeEnlazada as NLCSE
 
 
@@ -103,7 +112,7 @@ class ListaCircularSimplementeEnlazada:
 
         Parameters
         ----------
-        item : object|int
+        item : object | int
             Puede corresponder a la posición relativa donde se encuentra
             el nodo a suprimir o al dato del nodo a suprimir.
         por_dato : bool, optional
@@ -181,7 +190,7 @@ class ListaCircularSimplementeEnlazada:
 
         Parameters
         ----------
-        dato_buscar : object|int
+        dato_buscar : object | int
             Corresponde al valor del dato a ser buscado en la lista.
 
         Returns
@@ -208,7 +217,7 @@ class ListaCircularSimplementeEnlazada:
 
         Parameters
         ----------
-        dato_buscar : object
+        dato_buscar : object | int
             Corresponde al valor del dato a ser buscado.
 
         Returns

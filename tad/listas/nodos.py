@@ -1,3 +1,12 @@
+"""
+Módulo para implementar nodos para listas.
+
+Autor: Ray
+Año: 2026
+Licencia: GNU GPL v2.0
+"""
+
+
 class NodoListaSimplementeEnlazada:
     """Clase que corresponde a un nodo de una lista simplemente enlazada"""
 

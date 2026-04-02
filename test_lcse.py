@@ -1,3 +1,12 @@
+"""
+Módulo de pruebas para la clase ListaCircularSimplementeEnlazada.
+
+Autor: Ray
+Año: 2026
+Licencia: GNU GPL v2.0
+"""
+
+
 from tad.listas.lcse import ListaCircularSimplementeEnlazada as LCSE
 import os
 

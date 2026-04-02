@@ -5,6 +5,8 @@ Autor: Ray
 Año: 2026
 Licencia: GNU GPL v2.0
 """
+
+
 from tad.listas.nodos import NodoListaSimplementeEnlazada as NLSE
 
 
@@ -120,7 +122,7 @@ class ListaSimplementeEnlazada:
 
         Returns
         -------
-        object|None
+        object | None
             Devuelve el dato encontrado o None si no se encuentra.
         """
         if por_dato:

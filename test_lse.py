@@ -5,6 +5,8 @@ Autor: Ray
 Año: 2026
 Licencia: GNU GPL v2.0
 """
+
+
 from tad.listas.lse import ListaSimplementeEnlazada
 
 
