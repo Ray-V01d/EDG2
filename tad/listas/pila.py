@@ -1,0 +1,89 @@
+"""
+Módulo para implementar una pila de elementos.
+
+Autor: Ray
+Año: 2026
+Licencia: GNU GPL v2.0
+"""
+from tad.listas.nodos import NodoListaSimplementeEnlazada as NLSE
+
+
+class Pila:
+    """Clase que implementa el funcionamiento del TAD Pila
+    """
+    def __init__(self):
+        """Método constructor que realiza la creación e inicialización de
+        una Pila
+        """
+        pass
+
+    def es_vacia(self):
+        """Método que verifica si la pila se encuentra vacía
+        Returns
+        -------
+        bool
+        Retorna True si la pila es vacia. False en caso contrario
+        """
+        pass
+
+    def apilar(self, nuevo_dato):
+        """Método que realiza la entrada de un nuevo dato a la pila.
+        Realizar la validación de Homogeneidad para cada dato ingresado
+        a la pila
+        Parameters
+        ----------
+        nuevo_dato : object
+        El nuevo dato a ser adicionado a la pila
+        Returns
+        -------
+        bool
+        True si nuevo_dato fue apilado. False en caso contrario
+        """
+        pass
+
+    def desapilar(self):
+        """Método que saca/quita el último nodo (elimina el nodo) de la pila
+        y retorna su dato
+        Returns
+        -------
+        object|None
+        El dato del nodo desapilado y None cuando la pila no contenga
+        nodos/datos
+        """
+        pass
+
+    def cima(self):
+        """Método que retorna el dato del último nodo ingresado en la pila,
+        sin quitarlo de la misma
+        Returns
+        -------
+        object|None
+        El dato del último nodo ingresado y None cuando la pila no
+        contenga nodos/datos
+        """
+        pass
+
+    def __len__(self):
+        """Método que retorna el número de nodos que contiene la pila
+        Returns
+        -------
+        int
+        Tamaño de la pila
+        """
+        pass
+
+    def __str__(self):
+        """Método especial encargado de retornar una cadena con los datos
+        actuales que se encuentran en la pila (sin desapilarlos)
+        Returns
+        -------
+        str
+        Una cadena que muestre todos los datos que actualmente almacena
+        la pila, en el siguiente formato:
+        “ [dato_n]🔝 🔜 [dato_3] 🔜 [dato_2] 🔜 [dato_1]”
+        Cuando hay un sólo dato:
+        “ [dato_1]”🔝
+        Cuando no hay datos:
+        “ ”🔝
+        """
+        pass
