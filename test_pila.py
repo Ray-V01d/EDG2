@@ -83,7 +83,7 @@ def apilar(stk):
     print()
     print("Pila actual:", stk)
     print("Cima actual:", stk.cima())
-    print("Longitud actual:", len(stk))
+    print("Tamaño actual:", len(stk))
     sep()
 
 
