@@ -1,7 +1,6 @@
 """
-Módulo para inicializar las listas.
+módulo listas - Contiene las implementaciones de las listas
 
-Autor: Ray
-Año: 2026
-Licencia: GNU GPL v3.0
+Copyright (C) 2026 Ray
+SPDX-License-Identifier: GPL-3.0-or-later
 """

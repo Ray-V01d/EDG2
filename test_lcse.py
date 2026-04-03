@@ -1,9 +1,8 @@
 """
-Módulo de pruebas para la clase ListaCircularSimplementeEnlazada.
+pruebas para la clase ListaCircularSimplementeEnlazada
 
-Autor: Ray
-Año: 2026
-Licencia: GNU GPL v3.0
+Copyright (C) 2026 Ray
+SPDX-License-Identifier: GPL-3.0-or-later
 """
 
 
