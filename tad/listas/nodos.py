@@ -8,7 +8,7 @@ Licencia: GNU GPL v2.0
 
 
 class Nodo:
-    """Clase que corresponde a un nodo de una lista simplemente enlazada"""
+    """Clase que corresponde a un nodo genérico para listas"""
 
     def __init__(self, dato):
         """Método constructor que incorpora un dato dentro de un nodo
@@ -30,7 +30,7 @@ class Nodo:
 class NodoListaSimplementeEnlazada(Nodo):
     """Clase que corresponde a un nodo de una lista simplemente enlazada"""
 
-    def __init__(self, dato):
+    def __init__(self, dato) -> None:
         """Método constructor que incorpora un dato dentro de un nodo
         de lista simplemente enlazada
 
@@ -40,13 +40,13 @@ class NodoListaSimplementeEnlazada(Nodo):
             El dato a ser almacenado en el nodo
         """
         super().__init__(dato)
-        self.sig = None
+        self.sig: NodoListaSimplementeEnlazada | None = None
 
 
 class NodoListaDoblementeEnlazada(Nodo):
     """Clase que corresponde a un nodo de una lista doblemente enlazada"""
 
-    def __init__(self, dato):
+    def __init__(self, dato) -> None:
         """Método constructor que incorpora un dato dentro de un nodo
         de lista doblemente enlazada
 
@@ -56,5 +56,5 @@ class NodoListaDoblementeEnlazada(Nodo):
             El dato a ser almacenado en el nodo
         """
         super().__init__(dato)
-        self.sig = None
-        self.ant = None
+        self.sig: NodoListaDoblementeEnlazada | None = None
+        self.ant: NodoListaDoblementeEnlazada | None = None
