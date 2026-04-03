@@ -57,7 +57,7 @@ def clear():
 
 
 def separador():
-    print("+" + "=" * 79 + "+")
+    print("+" + "-" * 79 + "+")
 
 
 def agregar(lst):
