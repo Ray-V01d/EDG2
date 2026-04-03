@@ -28,7 +28,7 @@ class Pila:
         """
         return self.__cima is None
 
-    def homogeneo(self, new_dat):
+    def __homogeneo(self, new_dat):
         """Método que valida homogeneidad
 
         Parameters
@@ -61,7 +61,7 @@ class Pila:
         bool
             True si nuevo_dato fue apilado. False en caso contrario
         """
-        if self.homogeneo(nuevo_dato):
+        if self.__homogeneo(nuevo_dato):
             new_nod = NLSE(nuevo_dato)
             new_nod.sig = self.__cima
             self.__cima = new_nod
