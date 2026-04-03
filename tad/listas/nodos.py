@@ -7,20 +7,18 @@ Licencia: GNU GPL v2.0
 """
 
 
-class NodoListaSimplementeEnlazada:
+class Nodo:
     """Clase que corresponde a un nodo de una lista simplemente enlazada"""
 
     def __init__(self, dato):
-        """Método contructo que incorpora un dato dentro de un nodo
-           de lista simplemente enlazada.
+        """Método constructor que incorpora un dato dentro de un nodo
 
         Parameters
         ----------
         dato : object
-            Corresponde al valor que se va a guardar al interior del nodo
+            El dato a ser almacenado en el nodo
         """
         self.dato = dato
-        self.sig = None
 
     def __str__(self):
         return f"{self.dato}"
@@ -29,17 +27,34 @@ class NodoListaSimplementeEnlazada:
         return f"{self.dato}"
 
 
-class NodoListaDoblementeEnlazada(NodoListaSimplementeEnlazada):
+class NodoListaSimplementeEnlazada(Nodo):
     """Clase que corresponde a un nodo de una lista simplemente enlazada"""
 
     def __init__(self, dato):
-        """Método contructo que incorpora un dato dentro de un nodo
-           de lista doblemente enlazada.
+        """Método constructor que incorpora un dato dentro de un nodo
+        de lista simplemente enlazada
 
         Parameters
         ----------
         dato : object
-            Corresponde al valor que se va a guardar al interior del nodo
+            El dato a ser almacenado en el nodo
         """
+        super().__init__(dato)
+        self.sig = None
 
+
+class NodoListaDoblementeEnlazada(Nodo):
+    """Clase que corresponde a un nodo de una lista doblemente enlazada"""
+
+    def __init__(self, dato):
+        """Método constructor que incorpora un dato dentro de un nodo
+        de lista doblemente enlazada
+
+        Parameters
+        ----------
+        dato : object
+            El dato a ser almacenado en el nodo
+        """
+        super().__init__(dato)
+        self.sig = None
         self.ant = None
