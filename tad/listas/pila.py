@@ -29,6 +29,24 @@ class Pila:
         """
         return self.__cima is None
 
+    def homosexual(self, new_dat):
+        """Método que valida homogeneidad
+
+        Parameters
+        ----------
+        new_dat : object
+            El nuevo dato a validar
+
+        Returns
+        -------
+        bool
+            True si new_dat es del mismo tipo que los datos de la pila
+            False en caso contrario
+        """
+        if self.es_vacia():
+            return True
+        return type(new_dat) is type(self.__cima.dato)
+
     def apilar(self, nuevo_dato):
         """Método que realiza la entrada de un nuevo dato a la pila.
         Realizar la validación de Homogeneidad para cada dato ingresado
@@ -44,9 +62,12 @@ class Pila:
         bool
             True si nuevo_dato fue apilado. False en caso contrario
         """
-        if self.es_vacia():
-            self.__cima = NLSE(nuevo_dato)
+        if self.homosexual(nuevo_dato):
+            new_nod = NLSE(nuevo_dato)
+            new_nod.sig = self.__cima
+            self.__cima = new_nod
             return True
+        return False
 
     def desapilar(self):
         """Método que saca/quita el último nodo (elimina el nodo) de la pila
@@ -58,7 +79,11 @@ class Pila:
             El dato del nodo desapilado y None cuando la pila no contenga
             nodos/datos
         """
-        pass
+        if self.es_vacia():
+            return None
+        dat = self.__cima.dato
+        self.__cima = self.__cima.sig
+        return dat
 
     def cima(self):
         """Método que retorna el dato del último nodo ingresado en la pila,
@@ -70,7 +95,9 @@ class Pila:
             El dato del último nodo ingresado y None cuando la pila no
             contenga nodos/datos
         """
-        pass
+        if self.es_vacia():
+            return None
+        return self.__cima.dato
 
     def __len__(self):
         """Método que retorna el número de nodos que contiene la pila
@@ -80,7 +107,12 @@ class Pila:
         int
             Tamaño de la pila
         """
-        pass
+        count = 0
+        act = self.__cima
+        while act is not None:
+            count += 1
+            act = act.sig
+        return count
 
     def __str__(self):
         """Método especial encargado de retornar una cadena con los datos

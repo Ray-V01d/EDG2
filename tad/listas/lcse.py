@@ -24,6 +24,66 @@ class ListaCircularSimplementeEnlazada:
         self.__cab = None
         self.__col = None
 
+    def __str__(self):
+        """Método que devuelve una cadena con los datos de la lista.
+        Si la lsita está vacía devolverá una cadena sin datos.
+
+        Returns
+        -------
+        str
+            Si la lista no es vacía retornará una cadena en el formato
+            (ejemplo para 4 datos):
+            "⭕ --> |dato_0| --> |dato_1| --> |dato_2| --> ⭕" de lo contrario
+            retornará una cadena con el siguiente formato:
+            "⭕ --> ⭕"
+        """
+        if self.es_vacia():
+            return "⭕ --> ⭕"
+        cad = "⭕ --> "
+        nodo_actual = self.__cab
+        while True:
+            cad += f"[{nodo_actual.dato}] --> "
+            nodo_actual = nodo_actual.sig
+            if nodo_actual == self.__cab:
+                break
+        cad += "⭕"
+        return cad
+
+    def __len__(self):
+        """Método que calcula el tamaño de una lista
+
+        Returns
+        -------
+        int
+            Corresponde a la cantidad de nodos de la lista.
+        """
+        if self.es_vacia():
+            return 0
+        nod_act = self.__cab
+        count = 0
+        while True:
+            count += 1
+            nod_act = nod_act.sig
+            if nod_act == self.__cab:
+                return count
+
+    def __iter__(self):
+        """Método que devuelve uno por uno los datos de cada nodo de la lista.
+
+        Yields
+        ------
+        object
+            El dato de cada nodo de la lista.
+        """
+        if self.es_vacia():
+            return (())
+        nod_act = self.__cab
+        while True:
+            yield nod_act.dato
+            nod_act = nod_act.sig
+            if nod_act == self.__cab:
+                return
+
     def es_vacia(self):
         """Método que verifica si una lista está vacía
 
@@ -145,18 +205,18 @@ class ListaCircularSimplementeEnlazada:
             self.__cab = self.__cab.sig
             self.__col.sig = self.__cab
             return True
-        nodo_actual = self.__cab
-        pos_actual = 0
-        while pos_actual < pos_sup - 1:
-            nodo_actual = nodo_actual.sig
-            pos_actual += 1
-        if nodo_actual.sig == self.__cab:
+        nod_act = self.__cab
+        pos_act = 0
+        while pos_act < pos_sup - 1:
+            nod_act = nod_act.sig
+            pos_act += 1
+        if nod_act.sig == self.__cab:
             self.__cab = self.__cab.sig
             self.__col.sig = self.__cab
             return True
-        if nodo_actual.sig == self.__col:
-            self.__col = nodo_actual
-        nodo_actual.sig = nodo_actual.sig.sig
+        if nod_act.sig == self.__col:
+            self.__col = nod_act
+        nod_act.sig = nod_act.sig.sig
         self.__col.sig = self.__cab
         return True
 
@@ -171,17 +231,17 @@ class ListaCircularSimplementeEnlazada:
                 self.__cab = self.__cab.sig
                 self.__col.sig = self.__cab
             return True
-        nodo_actual = self.__cab
+        nod_act = self.__cab
         while (
-            nodo_actual.sig != self.__cab
-            and nodo_actual.sig.dato != dato_sup
+            nod_act.sig != self.__cab
+            and nod_act.sig.dato != dato_sup
         ):
-            nodo_actual = nodo_actual.sig
-        if nodo_actual.sig == self.__cab:
+            nod_act = nod_act.sig
+        if nod_act.sig == self.__cab:
             return False
-        if nodo_actual.sig == self.__col:
-            self.__col = nodo_actual
-        nodo_actual.sig = nodo_actual.sig.sig
+        if nod_act.sig == self.__col:
+            self.__col = nod_act
+        nod_act.sig = nod_act.sig.sig
         self.__col.sig = self.__cab
         return True
 
@@ -205,11 +265,11 @@ class ListaCircularSimplementeEnlazada:
             return self.__cab
         if dato_buscar == self.__col.dato:
             return self.__col
-        nodo_actual = self.__cab.sig
-        while nodo_actual is not self.__col:
-            if nodo_actual.dato == dato_buscar:
-                return nodo_actual
-            nodo_actual = nodo_actual.sig
+        nod_act = self.__cab.sig
+        while nod_act is not self.__col:
+            if nod_act.dato == dato_buscar:
+                return nod_act
+            nod_act = nod_act.sig
         return None
 
     def buscar_cuantos(self, dato_buscar):
@@ -227,14 +287,14 @@ class ListaCircularSimplementeEnlazada:
         """
         if self.es_vacia():
             return 0
-        nodo_actual = self.__cab
-        contador = 0
+        nod_act = self.__cab
+        count = 0
         while True:
-            if nodo_actual.dato == dato_buscar:
-                contador += 1
-            nodo_actual = nodo_actual.sig
-            if nodo_actual == self.__cab:
-                return contador
+            if nod_act.dato == dato_buscar:
+                count += 1
+            nod_act = nod_act.sig
+            if nod_act == self.__cab:
+                return count
 
     def suerte(self, pos_rel):
         """Método que devuelve el dato en una posición relativa de la lista
@@ -254,69 +314,9 @@ class ListaCircularSimplementeEnlazada:
         if self.es_vacia():
             return None
         pos_rel = pos_rel % len(self)
-        nodo_actual = self.__cab
-        pos_actual = 0
-        while pos_actual < pos_rel:
-            nodo_actual = nodo_actual.sig
-            pos_actual += 1
-        return nodo_actual.dato
-
-    def __str__(self):
-        """Método que devuelve una cadena con los datos de la lista.
-        Si la lsita está vacía devolverá una cadena sin datos.
-
-        Returns
-        -------
-        str
-            Si la lista no es vacía retornará una cadena en el formato
-            (ejemplo para 4 datos):
-            "⭕ --> |dato_0| --> |dato_1| --> |dato_2| --> ⭕" de lo contrario
-            retornará una cadena con el siguiente formato:
-            "⭕ --> ⭕"
-        """
-        if self.es_vacia():
-            return "⭕ --> ⭕"
-        resultado = "⭕ --> "
-        nodo_actual = self.__cab
-        while True:
-            resultado += f"[{nodo_actual.dato}] --> "
-            nodo_actual = nodo_actual.sig
-            if nodo_actual == self.__cab:
-                break
-        resultado += "⭕"
-        return resultado
-
-    def __len__(self):
-        """Método que calcula el tamaño de una lista
-
-        Returns
-        -------
-        int
-            Corresponde a la cantidad de nodos de la lista.
-        """
-        if self.es_vacia():
-            return 0
-        nodo_actual = self.__cab
-        contador = 0
-        while True:
-            contador += 1
-            nodo_actual = nodo_actual.sig
-            if nodo_actual == self.__cab:
-                return contador
-
-    def __iter__(self):
-        """Método que devuelve uno por uno los datos de cada nodo de la lista.
-
-        Yields
-        ------
-        object
-            El dato de cada nodo de la lista.
-        """
-        if self.es_vacia():
-            return (())
-        nodo_actual = self.__cab
-        while True:
-            yield nodo_actual.dato
-            nodo_actual = nodo_actual.sig
-            if nodo_actual == self.__cab:
-                return
+        nod_act = self.__cab
+        pos_act = 0
+        while pos_act < pos_rel:
+            nod_act = nod_act.sig
+            pos_act += 1
+        return nod_act.dato
