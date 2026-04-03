@@ -122,10 +122,19 @@ class Pila:
         str
             Una cadena que muestre todos los datos que actualmente almacena
             la pila, en el siguiente formato:
-            “ [dato_n]🔝 🔜 [dato_3] 🔜 [dato_2] 🔜 [dato_1]”
+            “🔝[dato_n] 🔜 [dato_3] 🔜 [dato_2] 🔜 [dato_1]”
             Cuando hay un sólo dato:
-            “ [dato_1]”🔝
+            “🔝[dato_1]”
             Cuando no hay datos:
-            “ ”🔝
+            “🔝”
         """
-        pass
+        if self.es_vacia():
+            return "🔝"
+        act = self.__cima
+        out = "🔝"
+        while act is not None:
+            out += f"[{act.dato}]"
+            if act.sig is not None:
+                out += " 🔜 "
+            act = act.sig
+        return out
