@@ -3,7 +3,7 @@ Módulo de pruebas para la clase ListaSimplementeEnlazada.
 
 Autor: Ray
 Año: 2026
-Licencia: GNU GPL v2.0
+Licencia: GNU GPL v3.0
 """
 
 
@@ -11,6 +11,8 @@ from tad.listas.lse import ListaSimplementeEnlazada
 
 
 def main():
+    """Función principal
+    """
     lista = ListaSimplementeEnlazada()
 
     # ---------------- Agregar ----------------

@@ -3,19 +3,21 @@ Módulo de pruebas para la clase ListaCircularSimplementeEnlazada.
 
 Autor: Ray
 Año: 2026
-Licencia: GNU GPL v2.0
+Licencia: GNU GPL v3.0
 """
 
 
-from tad.listas.lcse import ListaCircularSimplementeEnlazada as LCSE
 import os
+from tad.listas.lcse import ListaCircularSimplementeEnlazada as LCSE
 
 
 def main():
+    """Función principal
+    """
     clear()
     lst = LCSE()
 
-    TESTS = {
+    test = {
         "agregar": True,
         "insertar": True,
         "suprimir_pos": True,
@@ -26,28 +28,28 @@ def main():
         "metodos_magicos": True,
     }
 
-    if TESTS["agregar"]:
+    if test["agregar"]:
         agregar(lst)
 
-    if TESTS["insertar"]:
+    if test["insertar"]:
         insertar(lst)
 
-    if TESTS["suprimir_pos"]:
+    if test["suprimir_pos"]:
         suprimir_pos(lst)
 
-    if TESTS["suprimir_dato"]:
+    if test["suprimir_dato"]:
         suprimir_dato(lst)
 
-    if TESTS["buscar"]:
+    if test["buscar"]:
         buscar(lst)
 
-    if TESTS["buscar_cuantos"]:
+    if test["buscar_cuantos"]:
         buscar_cuantos(lst)
 
-    if TESTS["suerte"]:
+    if test["suerte"]:
         suerte(lst)
 
-    if TESTS["metodos_magicos"]:
+    if test["metodos_magicos"]:
         metodos_magicos(lst)
 
 
@@ -63,9 +65,9 @@ def agregar(lst):
     separador()
     print("=== PRUEBA AGREGAR ===")
 
-    agregar = [1, 3, 5, 7]
+    add = [1, 3, 5, 7]
 
-    for a in agregar:
+    for a in add:
         lst.agregar(a)
         print(lst)
         print()
@@ -122,8 +124,8 @@ def buscar(lst):
     separador()
     print("=== PRUEBA BUSCAR ===")
 
-    buscar = [0, 7, 4, 1000]
-    for b in buscar:
+    search = [0, 7, 4, 1000]
+    for b in search:
         print(f"Buscar {b}:", lst.buscar(b))
     print()
 
@@ -132,8 +134,8 @@ def buscar_cuantos(lst):
     separador()
     print("=== PRUEBA BUSCAR CUANTOS ===")
 
-    buscar = [4, 2]
-    for b in buscar:
+    many = [4, 2]
+    for b in many:
         print(f"Buscar cuántos {b}:", lst.buscar_cuantos(b))
     print()
 

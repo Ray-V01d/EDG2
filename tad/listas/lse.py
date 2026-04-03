@@ -3,7 +3,7 @@ Módulo para implementar una lista simplemente enlazada.
 
 Autor: Ray
 Año: 2026
-Licencia: GNU GPL v2.0
+Licencia: GNU GPL v3.0
 """
 
 
