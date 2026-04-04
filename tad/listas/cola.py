@@ -6,13 +6,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
 """
 
 
+from tad.listas.nodo import NodoListaSimplementeEnlazada as NLSE
+
+
 class Cola:
     """Clase que implementa el funcionamiento del TAD Cola
     """
     def __init__(self):
         """Método que realiza la creación e inicialización de la Cola
         """
-        pass
+        self.__fre = None
+        self.__ter = None
 
     def es_vacia(self):
         """Método que verifica si la cola se encuentra vacía
@@ -22,7 +26,12 @@ class Cola:
         bool
             Retorna True si la cola es vacia. False en caso contrario
         """
-        pass
+        return self.__fre is None
+    
+    def __homogeneo(self, dato):
+        if self.es_vacia():
+            return True
+        return type(dato) is type(self.__fre.dato)
 
     def encolar(self, nuevo_dato):
         """Método que adiciona un nuevo dato al final de la cola. Realizar la
@@ -38,7 +47,14 @@ class Cola:
         bool
             True si nuevo_dato fue encolado. False en caso contrario
         """
-        pass
+        if self.es_vacia():
+            self.__fre = NLSE(nuevo_dato)
+            self.__ter = self.__fre
+            return True
+        if self.__homogeneo(nuevo_dato):
+            pass
+
+
 
     def desencolar(self):
         """Método que saca/quita el primer nodo (elimina el nodo) de la cola
