@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 """
 
 
-from tad.listas.nodo import NodoListaSimplementeEnlazada as NLSE
+from tad.listas.nodos import NodoListaSimplementeEnlazada as NLSE
 
 
 class Cola:
@@ -27,7 +27,7 @@ class Cola:
             Retorna True si la cola es vacia. False en caso contrario
         """
         return self.__fre is None
-    
+
     def __homogeneo(self, dato):
         if self.es_vacia():
             return True
@@ -52,9 +52,10 @@ class Cola:
             self.__ter = self.__fre
             return True
         if self.__homogeneo(nuevo_dato):
-            pass
-
-
+            self.__ter.siguiente = NLSE(nuevo_dato)
+            self.__ter = self.__ter.siguiente
+            return True
+        return False
 
     def desencolar(self):
         """Método que saca/quita el primer nodo (elimina el nodo) de la cola
@@ -66,7 +67,11 @@ class Cola:
             El dato del primer nodo de la cola y None cuando la cola no
             contenga nodos/datos
         """
-        pass
+        if not self.es_vacia():
+            dato = self.__fre.dato
+            self.__fre = self.__fre.siguiente
+            return dato
+        return None
 
     def frente(self):
         """Método que retorna el dato del primer nodo de la cola, sin quitarlo
@@ -78,7 +83,9 @@ class Cola:
             El dato del primer nodo en la cola y None cuando la cola no
             contenga nodos/datos
         """
-        pass
+        if not self.es_vacia():
+            return self.__fre.dato
+        return None
 
     def __len__(self):
         """Método que retorna del número de nodos que contiene la cola
@@ -88,7 +95,14 @@ class Cola:
         int
             Tamaño de la cola
         """
-        pass
+        if self.es_vacia():
+            return 0
+        nodo = self.__fre
+        cont = 0
+        while nodo is not None:
+            cont += 1
+            nodo = nodo.siguiente
+        return cont
 
     def __str__(self):
         """Método especial encargado de retornar una cadena con los datos
@@ -99,10 +113,22 @@ class Cola:
         str
             Una cadena que muestre todos los datos que actualmente almacena
             la cola, en el siguiente formato:
-            " |[dato_0]|🏨🚶🚶🚶 👈 (dato_1) 👈 (dato_2) 👈 (dato_n)"
+            "🏨🚶🚶🚶|[dato_0]| 👈 (dato_1) 👈 (dato_2) 👈 (dato_n)"
             Cuando hay un sólo dato:
-            " #[dato_0]#"🏨🚶🚶🚶
+            "🏨🚶🚶🚶#[dato_0]#"
             Cuando no hay datos:
-            " "🏨
+            "🏨"
         """
-        pass
+        if self.es_vacia():
+            return "🏨"
+        nodo = self.__fre
+        cadena = "🏨🚶🚶🚶"
+        while nodo is not None:
+            if nodo is self.__fre and nodo is self.__ter:
+                cadena += f"#{nodo.dato}#"
+            elif nodo is self.__fre:
+                cadena += f"|{nodo.dato}|"
+            else:
+                cadena += f" 👈 ({nodo.dato})"
+            nodo = nodo.siguiente
+        return cadena
