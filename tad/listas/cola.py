@@ -52,8 +52,8 @@ class Cola:
             self.__ter = self.__fre
             return True
         if self.__homogeneo(nuevo_dato):
-            self.__ter.siguiente = NLSE(nuevo_dato)
-            self.__ter = self.__ter.siguiente
+            self.__ter.sig = NLSE(nuevo_dato)
+            self.__ter = self.__ter.sig
             return True
         return False
 
@@ -69,7 +69,9 @@ class Cola:
         """
         if not self.es_vacia():
             dato = self.__fre.dato
-            self.__fre = self.__fre.siguiente
+            self.__fre = self.__fre.sig
+            if self.__fre is None:
+                self.__ter = None
             return dato
         return None
 
@@ -97,12 +99,12 @@ class Cola:
         """
         if self.es_vacia():
             return 0
-        nodo = self.__fre
-        cont = 0
-        while nodo is not None:
-            cont += 1
-            nodo = nodo.siguiente
-        return cont
+        count = 0
+        act = self.__fre
+        while act is not None:
+            count += 1
+            act = act.sig
+        return count
 
     def __str__(self):
         """Método especial encargado de retornar una cadena con los datos
@@ -121,14 +123,14 @@ class Cola:
         """
         if self.es_vacia():
             return "🏨"
-        nodo = self.__fre
-        cadena = "🏨🚶🚶🚶"
-        while nodo is not None:
-            if nodo is self.__fre and nodo is self.__ter:
-                cadena += f"#{nodo.dato}#"
-            elif nodo is self.__fre:
-                cadena += f"|{nodo.dato}|"
+        act = self.__fre
+        cad = "🏨🚶🚶🚶"
+        while act is not None:
+            if act == self.__fre:
+                cad += f"|[{act.dato}]|"
+            elif act == self.__ter:
+                cad += f"#[{act.dato}]#"
             else:
-                cadena += f" 👈 ({nodo.dato})"
-            nodo = nodo.siguiente
-        return cadena
+                cad += f" 👈 ({act.dato})"
+            act = act.sig
+        return cad
