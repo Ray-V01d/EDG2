@@ -1,5 +1,5 @@
 """
-pruebas para la clase Pila
+pruebas para la clase Cola
 
 Copyright (C) 2026 Ray
 SPDX-License-Identifier: GPL-3.0-or-later
@@ -111,7 +111,7 @@ def frente(que):
 
 
 def length(que):
-    """Prueba el tamaño de la cola 🍑
+    """Prueba el tamaño de la cola
     """
     print("=========TEST LENGTH=========")
     print("Tamaño actual:", len(que))
