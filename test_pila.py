@@ -31,14 +31,12 @@ def main():
 
     if test["apilar"]:
         apilar(stk)
+        cima(stk)
+        length(stk)
 
     if test["desapilar"]:
         desapilar(stk)
-
-    if test["cima"]:
         cima(stk)
-
-    if test["len"]:
         length(stk)
 
 
@@ -60,9 +58,9 @@ def es_vacia(stk):
     """
     print("=========TEST ES VACÍA=========")
     if stk.es_vacia():
-        print("La pila se encuentra vacía")
+        print("La pila se encuentra vacía:", stk)
     else:
-        print("La pila NO se encuentra vacía")
+        print("La pila NO se encuentra vacía:", stk)
     sep()
 
 
@@ -82,8 +80,6 @@ def apilar(stk):
     print(f"Pila (teórica): {the}")
     print()
     print("Pila actual:", stk)
-    print("Cima actual:", stk.cima())
-    print("Tamaño actual:", len(stk))
     sep()
 
 
