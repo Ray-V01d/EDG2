@@ -126,10 +126,10 @@ class Cola:
         act = self.__fre
         cad = "🏨🚶🚶🚶"
         while act is not None:
-            if act == self.__fre:
-                cad += f"|[{act.dato}]|"
-            elif act == self.__ter:
+            if act == self.__fre and act == self.__ter:
                 cad += f"#[{act.dato}]#"
+            elif act == self.__fre:
+                cad += f"|[{act.dato}]|"
             else:
                 cad += f" 👈 ({act.dato})"
             act = act.sig
