@@ -41,7 +41,7 @@ class ListaCircularSimplementeEnlazada:
         cad = "⭕ --> "
         nodo_actual = self.__cab
         while True:
-            cad += f"[{nodo_actual.dato}] --> "
+            cad += f"|{nodo_actual.dato}| --> "
             nodo_actual = nodo_actual.sig
             if nodo_actual == self.__cab:
                 break
@@ -136,7 +136,7 @@ class ListaCircularSimplementeEnlazada:
         bool
             True si el nuevo dato es insertado. False en caso contrario
         """
-        if type(pos_rel) is not int or pos_rel < 0:
+        if not isinstance(pos_rel, int) or pos_rel < 0:
             return False
         if not self.es_vacia() and type(new) is not type(self.__cab.dato):
             return False
@@ -184,12 +184,12 @@ class ListaCircularSimplementeEnlazada:
         bool
             True si el nodo es suprimido. False en caso contrario
         """
-        if type(por_dato) is not bool:
+        if not isinstance(por_dato, bool):
             return False
         if por_dato:
             return self.__suprimir_dato(item)
         else:
-            if type(item) is not int or item < 0:
+            if not isinstance(item, int) or item < 0:
                 return False
             return self.__suprimir_pos(item)
 
@@ -308,7 +308,7 @@ class ListaCircularSimplementeEnlazada:
         object
             El dato encontrado en la lista.
         """
-        if type(pos_rel) is not int or pos_rel < 0:
+        if not isinstance(pos_rel, int) or pos_rel < 0:
             return None
         if self.es_vacia():
             return None
