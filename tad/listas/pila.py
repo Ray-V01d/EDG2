@@ -16,7 +16,7 @@ class Pila:
         """Método constructor que realiza la creación e inicialización de
         una Pila
         """
-        self.__cima = None
+        self.__cima: NLSE | None = None
 
     def es_vacia(self):
         """Método que verifica si la pila se encuentra vacía
