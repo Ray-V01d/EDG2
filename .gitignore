@@ -14,3 +14,6 @@ venv/
 .mypy_cache/
 
 .tad/listas/lde.py
+ejercicio_Oficina.py
+bandeja.dat
+entrada.dat
