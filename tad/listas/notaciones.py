@@ -6,6 +6,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 """
 
 
+from tad.listas.pila import Pila
+
+
 class Prefija:
     """Clase que implementa la transformación de un expresión
     matemática Infija a Prefija (notación Polaca) y el cálculo
@@ -22,25 +25,34 @@ class Prefija:
     ) : Paréntesis Derecho
     """
     def __init__(self, expresión_infija: str):
-        pass
+        self.__infija = expresión_infija
 
-    def in_fija(self) -> str:
+    def __prioridad(self, op: str) -> int:
+        prioridades = {
+            "^": 3,
+            "*": 2,
+            "/": 2,
+            "+": 1,
+            "-": 1,
+        }
+        return prioridades.get(op, 0)
+
+
+    def in_fija(self):
         """Método que retorna la expresión Infija original, separando cada
         operando y cada operador, incluyendo los paréntesis, por un espacio
         en blanco.
         “(⬜12⬜-⬜8⬜)⬜^⬜3⬜+⬜7”
         """
-        return
 
-    def pre_fija(self) -> str:
+
+    def pre_fija(self):
         """Método que convierte una expresión Infija a una expresión Prefija,
         haciendo uso de una Pila. Separar operandos y operadores por un
         espacio en blanco.
         “+⬜^⬜-⬜12⬜8⬜3⬜7”
         """
-        return
 
-    def eval_expr_aritmetica(self) -> float:
+    def eval_expr_aritmetica(self):
         """Evaluación de la expresión aritmética en notación Prefija,
         utilizando una Pila, calculando el resultado final de la expresión."""
-        return
