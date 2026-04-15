@@ -62,9 +62,9 @@ class Pila:
             True si nuevo_dato fue apilado. False en caso contrario
         """
         if self.__homogeneo(nuevo_dato):
-            new_nod = NLSE(nuevo_dato)
-            new_nod.sig = self.__cima
-            self.__cima = new_nod
+            nue_nod = NLSE(nuevo_dato)
+            nue_nod.sig = self.__cima
+            self.__cima = nue_nod
             return True
         return False
 
