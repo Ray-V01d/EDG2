@@ -106,12 +106,12 @@ class Pila:
         int
             Tamaño de la pila
         """
-        count = 0
+        cont = 0
         act = self.__cima
         while act is not None:
-            count += 1
+            cont += 1
             act = act.sig
-        return count
+        return cont
 
     def __str__(self):
         """Método especial encargado de retornar una cadena con los datos
@@ -131,10 +131,10 @@ class Pila:
         if self.es_vacia():
             return "🔝"
         act = self.__cima
-        out = "🔝"
+        sal = "🔝"
         while act is not None:
-            out += f"[{act.dato}]"
+            sal += f"[{act.dato}]"
             if act.sig is not None:
-                out += " 🔜 "
+                sal += " 🔜 "
             act = act.sig
-        return out
+        return sal
