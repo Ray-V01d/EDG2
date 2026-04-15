@@ -29,11 +29,13 @@ class Prefija:
 
     def __prioridad(self, op: str) -> int:
         prioridades = {
-            "^": 3,
-            "*": 2,
-            "/": 2,
             "+": 1,
             "-": 1,
+            "*": 2,
+            "/": 2,
+            "^": 3,
+            "(": 0,
+            ")": 0
         }
         return prioridades.get(op, 0)
 
