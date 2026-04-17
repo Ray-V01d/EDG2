@@ -5,11 +5,10 @@ Copyright (C) 2026 Ray
 SPDX-License-Identifier: GPL-3.0-or-later
 """
 
-
 from tad.listas.pila import Pila
 
 
-class Prefija:  # Pregúnta a Chat-GPT cómo funciona 🫩
+class Prefija:
     """Clase que implementa la transformación de un expresión
     matemática Infija a Prefija (notación Polaca) y el cálculo
     de la expresión aritmética Prefija.
@@ -24,228 +23,181 @@ class Prefija:  # Pregúnta a Chat-GPT cómo funciona 🫩
     ( : Paréntesis Izquierdo
     ) : Paréntesis Derecho
     """
-    def __init__(self, expresion_infija: str):
-        self.__expr = expresion_infija
-        self.__error = None
+    def __init__(self, expresión_infija: str):
+        """Inicializa la clase con una expresión infija"""
+        self.__expresión_infija = expresión_infija
+        self.__infija_formateada: None | str = None
+        self.__prefija_result: None | str = None
 
-        try:
-            self.__tokens = self.__tokenizar(self.__expr)
-            self.__validar(self.__tokens)
-
-        except ValueError as e:
-            self.__tokens = []
-            self.__error = str(e)
-        except Exception:  # Manejo demasiado general
-            self.__tokens = []
-            self.__error = "Expresión inválida"
-
-    def __tokenizar(self, expr: str):
-        """Tokeniza y devuelve una cadena con tokens separados por espacios.
-        Rechaza decimales y caracteres inválidos.
-        """
-        out = ""
-        num = ""
-
-        for ch in expr:
-            if ch.isspace():
-                if num:
-                    out = (out + " " + num) if out else num
-                    num = ""
-                continue
-            if ch.isdigit():
-                num += ch
-                continue
-            if ch == ".":
-                raise ValueError("Decimal no permitido")
-            if num:
-                out = (out + " " + num) if out else num
-                num = ""
-            if ch in "+-*/^()":
-                out = (out + " " + ch) if out else ch
-            else:
-                raise ValueError("Carácter inválido")
-        if num:
-            out = (out + " " + num) if out else num
-        return out
-
-    def __validar(self, tokens_str: str):
-        if not tokens_str:
-            raise ValueError("Expresión vacía")
-        balance = 0
-        espera_operando = True
-
-        for t in self.__iter_tokens_from_str(tokens_str):
-            if t.isdigit():
-                if not espera_operando:
-                    raise ValueError("Operador mal ubicado")
-                espera_operando = False
-            elif t == "(":
-                if not espera_operando:
-                    raise ValueError("Operador mal ubicado")
-                balance += 1
-                espera_operando = True
-            elif t == ")":
-                if espera_operando:
-                    raise ValueError("Operador mal ubicado")
-                balance -= 1
-                if balance < 0:
-                    raise ValueError("Paréntesis desbalanceados")
-                espera_operando = False
-            elif t in "+-*/^":
-                if espera_operando:
-                    raise ValueError("Operador mal ubicado")
-                espera_operando = True
-            else:
-                raise ValueError("Carácter inválido")
-
-        if balance != 0:
-            raise ValueError("Paréntesis desbalanceados")
-
-        if espera_operando:
-            raise ValueError("Expresión incompleta")
-
-    def __iter_tokens_from_str(self, s: str):
-        """Generador que recorre la cadena de tokens (separada por espacios)."""
-        i = 0
-        n = len(s)
-        while i < n:
-            if s[i].isspace():
-                i += 1
-                continue
-            j = i
-            while j < n and not s[j].isspace():
-                j += 1
-            yield s[i:j]
-            i = j
-
-    def in_fija(self):
-        """Método que retorna la expresión Infija original, separando cada
-        operando y cada operador, incluyendo los paréntesis, por un espacio
-        en blanco.
-        “(⬜12⬜-⬜8⬜)⬜^⬜3⬜+⬜7”
-        """
-        if self.__error:
-            return self.__error
-        return self.__tokens
-
-    def __prec(self, op):
-        if op == "^":
+    def __precedencia(self, operador: str) -> int:
+        if operador == '^':
             return 3
-        if op in "*/":
+        elif operador in ['*', '/']:
             return 2
-        if op in "+-":
+        elif operador in ['+', '-']:
             return 1
         return 0
 
-    def pre_fija(self):
+    def __es_operador(self, car: str) -> bool:
+        return car in ['+', '-', '*', '/', '^']
+
+    def __es_dígito(self, car: str) -> bool:
+        return car.isdigit()
+
+    def in_fija(self) -> str:
+        """Método que retorna la expresión Infija original, separando cada
+        operando y cada operador, incluyendo los paréntesis, por un espacio
+        en blanco.
+        "(⬜12⬜-⬜8⬜)⬜^⬜3⬜+⬜7"
+        """
+        try:
+            if self.__infija_formateada is not None:
+                return self.__infija_formateada
+            resultado = ""
+            i = 0
+            expr = self.__expresión_infija
+
+            while i < len(expr):
+                car = expr[i]
+                if car == ' ':
+                    i += 1
+                    continue
+                if self.__es_dígito(car):
+                    operando = ""
+                    while i < len(expr) and self.__es_dígito(expr[i]):
+                        operando += expr[i]
+                        i += 1
+                    if resultado:
+                        resultado += " "
+                    resultado += operando
+                    continue
+                if self.__es_operador(car) or car in ['(', ')']:
+                    if resultado:
+                        resultado += " "
+                    resultado += car
+                    i += 1
+                    continue
+                i += 1
+
+            self.__infija_formateada = resultado
+            return self.__infija_formateada
+        except Exception:
+            return ""
+
+    def pre_fija(self) -> str:
         """Método que convierte una expresión Infija a una expresión Prefija,
         haciendo uso de una Pila. Separar operandos y operadores por un
         espacio en blanco.
-        “+⬜^⬜-⬜12⬜8⬜3⬜7”
+        "+⬜^⬜-⬜12⬜8⬜3⬜7"
         """
-        if self.__error:
-            return self.__error
+        try:
+            infija_fmt = self.in_fija()
+            expr_invertida = ""
+            i = len(infija_fmt) - 1
 
-        ops = Pila()
-        salida_pila = Pila()
+            while i >= 0:
+                if infija_fmt[i] == '(':
+                    expr_invertida += ')'
+                    i -= 1
+                elif infija_fmt[i] == ')':
+                    expr_invertida += '('
+                    i -= 1
+                else:
+                    expr_invertida += infija_fmt[i]
+                    i -= 1
+            postfija_invertida = self.__infija_a_postfija(expr_invertida)
+            prefija = ""
+            i = len(postfija_invertida) - 1
 
-        tokens_pila = Pila()
-        for tok in self.__iter_tokens_from_str(self.__tokens):
-            tokens_pila.apilar(tok)
+            while i >= 0:
+                prefija += postfija_invertida[i]
+                i -= 1
+            self.__prefija_result = prefija
+            return self.__prefija_result
+        except Exception:
+            return ""
 
-        while not tokens_pila.es_vacia():
-            t = tokens_pila.desapilar()
-            if t == "(":
-                t = ")"
-            elif t == ")":
-                t = "("
+    def __infija_a_postfija(self, infija: str) -> str:
+        """Convierte una expresión infija a postfija usando una pila
+        Algoritmo de Dijkstra (Shunting Yard)
+        """
+        try:
+            pila_operadores = Pila()
+            resultado = ""
+            tokens = infija.split()
 
-            if t.isdigit():
-                salida_pila.apilar(t)
-            elif t == "(":
-                ops.apilar(t)
-            elif t == ")":
-                while not ops.es_vacia() and ops.cima() != "(":
-                    salida_pila.apilar(ops.desapilar())
-                if ops.es_vacia():
-                    self.__error = "Paréntesis desbalanceados"
-                    return self.__error
-                ops.desapilar()
-            else:
-                while (
-                    not ops.es_vacia()
-                    and ops.cima() != "("
-                    and (
-                        self.__prec(ops.cima()) > self.__prec(t)
-                        or (
-                            self.__prec(ops.cima()) == self.__prec(t)
-                            and t != "^"
-                        )
-                    )
-                ):
-                    salida_pila.apilar(ops.desapilar())
-                ops.apilar(t)
+            for token in tokens:
+                if self.__es_dígito(token[0]):
+                    if resultado:
+                        resultado += " "
+                    resultado += token
+                elif token == '(':
+                    pila_operadores.apilar(token)
+                elif token == ')':
+                    while not pila_operadores.es_vacia() and pila_operadores.cima() != '(':
+                        op = pila_operadores.desapilar()
+                        if resultado:
+                            resultado += " "
+                        resultado += op
+                    pila_operadores.desapilar()
+                elif self.__es_operador(token):
+                    if token == '^':
+                        while (not pila_operadores.es_vacia() and
+                               pila_operadores.cima() != '(' and
+                               self.__precedencia(pila_operadores.cima()) > self.__precedencia(token)):
+                            op = pila_operadores.desapilar()
+                            if resultado:
+                                resultado += " "
+                            resultado += op
+                    else:
+                        while (not pila_operadores.es_vacia() and
+                               pila_operadores.cima() != '(' and
+                               self.__precedencia(pila_operadores.cima()) >= self.__precedencia(token)):
+                            op = pila_operadores.desapilar()
+                            if resultado:
+                                resultado += " "
+                            resultado += op
+                    pila_operadores.apilar(token)
 
-        while not ops.es_vacia():
-            top = ops.desapilar()
-            if top in "()":
-                self.__error = "Paréntesis desbalanceados"
-                return self.__error
-            salida_pila.apilar(top)
+            while not pila_operadores.es_vacia():
+                op = pila_operadores.desapilar()
+                if resultado:
+                    resultado += " "
+                resultado += op
 
-        res = ""
-        while not salida_pila.es_vacia():
-            tok = salida_pila.desapilar()
-            res = (res + " " + tok) if res else tok
-        return res
+            return resultado
+        except Exception:
+            return ""
 
-    def __tomar_operando(self, pila):
-        val = pila.desapilar()
-        if val is None:
-            raise ValueError("Expresión inválida")
-        return val
-
-    def eval_expr_aritmetica(self):
+    def eval_expr_aritmetica(self) -> float:
         """Evaluación de la expresión aritmética en notación Prefija,
         utilizando una Pila, calculando el resultado final de la expresión."""
-        if self.__error:
-            return None
+        try:
+            prefija = self.pre_fija()
+            tokens = prefija.split()
+            pila_datos = Pila()
+            i = len(tokens) - 1
 
-        prefija_str = self.pre_fija()
-        if self.__error:
-            return None
-
-        pref_pila = Pila()
-        for tok in self.__iter_tokens_from_str(prefija_str):
-            pref_pila.apilar(tok)
-
-        pila = Pila()
-        while not pref_pila.es_vacia():
-            t = pref_pila.desapilar()
-            if t.isdigit():
-                pila.apilar(float(t))
-                continue
-            if t not in "+-*/^":
-                self.__error = "Operador inválido"
-                return None
-            a = self.__tomar_operando(pila)
-            b = self.__tomar_operando(pila)
-            if t == "+":
-                pila.apilar(a + b)
-            elif t == "-":
-                pila.apilar(a - b)
-            elif t == "*":
-                pila.apilar(a * b)
-            elif t == "/":
-                if b == 0:
-                    self.__error = "División por cero"
-                    return None
-                pila.apilar(a / b)
-            elif t == "^":
-                pila.apilar(a ** b)
-
-        res = pila.desapilar()
-        if res is None or not pila.es_vacia():
-            self.__error = "Expresión inválida"
-            return None
-        return float(res)
+            while i >= 0:
+                token = tokens[i]
+                if self.__es_dígito(token[0]):
+                    pila_datos.apilar(float(token))
+                elif self.__es_operador(token):
+                    operando1 = pila_datos.desapilar()
+                    operando2 = pila_datos.desapilar()
+                    if token == '+':
+                        resultado = operando1 + operando2
+                    elif token == '-':
+                        resultado = operando1 - operando2
+                    elif token == '*':
+                        resultado = operando1 * operando2
+                    elif token == '/':
+                        resultado = operando1 / operando2
+                    elif token == '^':
+                        resultado = operando1 ** operando2
+                    pila_datos.apilar(resultado)
+                i -= 1
+            resultado = pila_datos.desapilar()
+            return resultado if resultado is not None else 0.0
+        except Exception:
+            return 0.0
