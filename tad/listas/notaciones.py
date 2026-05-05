@@ -32,14 +32,14 @@ class Prefija:
     def __precedencia(self, operador: str) -> int:
         if operador == '^':
             return 3
-        elif operador in ['*', '/']:
+        elif operador in '*/':
             return 2
-        elif operador in ['+', '-']:
+        elif operador in '+-':
             return 1
         return 0
 
     def __es_operador(self, car: str) -> bool:
-        return car in ['+', '-', '*', '/', '^']
+        return car in '+-*/^'
 
     def __es_dígito(self, car: str) -> bool:
         return car.isdigit()
@@ -81,8 +81,8 @@ class Prefija:
 
             self.__infija_formateada = resultado
             return self.__infija_formateada
-        except Exception:
-            return ""
+        except Exception as e:
+            raise ValueError(f"error en infija{e}")
 
     def pre_fija(self) -> str:
         """Método que convierte una expresión Infija a una expresión Prefija,
@@ -114,8 +114,8 @@ class Prefija:
                 i -= 1
             self.__prefija_result = prefija
             return self.__prefija_result
-        except Exception:
-            return ""
+        except Exception as e:
+            raise ValueError(f"error en prefija{e}")
 
     def __infija_a_postfija(self, infija: str) -> str:
         """Convierte una expresión infija a postfija usando una pila
@@ -166,8 +166,8 @@ class Prefija:
                 resultado += op
 
             return resultado
-        except Exception:
-            return ""
+        except Exception as e:
+            raise ValueError(f"error al convertir de infija a postfija{e}")
 
     def eval_expr_aritmetica(self) -> float:
         """Evaluación de la expresión aritmética en notación Prefija,
@@ -199,5 +199,155 @@ class Prefija:
                 i -= 1
             resultado = pila_datos.desapilar()
             return resultado if resultado is not None else 0.0
-        except Exception:
-            return 0.0
+        except Exception as e:
+            raise ValueError(f"error al evaluar_expresion{e}")
+
+
+class Postfija:
+    def __init__(self, expresión_infija: str):
+        """Inicializa la clase con una expresión infija"""
+        self.__expresión_infija = expresión_infija
+        self.__infija_formateada: None | str = None
+
+    def __precedencia(self, operador: str) -> int:
+        if operador == '^':
+            return 3
+        elif operador in '*/':
+            return 2
+        elif operador in '+-':
+            return 1
+        return 0
+
+    def __es_operador(self, car: str) -> bool:
+        return car in '+-*/^'
+
+    def __es_dígito(self, car: str) -> bool:
+        return car.isdigit()
+
+    def in_fija(self) -> str:
+        """Método que retorna la expresión Infija original, separando cada
+        operando y cada operador, incluyendo los paréntesis, por un espacio
+        en blanco.
+        "(⬜12⬜-⬜8⬜)⬜^⬜3⬜+⬜7"
+        """
+        try:
+            if self.__infija_formateada is not None:
+                return self.__infija_formateada
+            resultado = ""
+            i = 0
+            expr = self.__expresión_infija
+
+            while i < len(expr):
+                car = expr[i]
+                if car == ' ':
+                    i += 1
+                    continue
+                if self.__es_dígito(car):
+                    operando = ""
+                    while i < len(expr) and self.__es_dígito(expr[i]):
+                        operando += expr[i]
+                        i += 1
+                    if resultado:
+                        resultado += " "
+                    resultado += operando
+                    continue
+                if self.__es_operador(car) or car in ['(', ')']:
+                    if resultado:
+                        resultado += " "
+                    resultado += car
+                    i += 1
+                    continue
+                i += 1
+
+            self.__infija_formateada = resultado
+            return self.__infija_formateada
+        except Exception as e:
+            raise ValueError(f'error en in_fija{e}')
+
+
+    def post_fija(self) -> str:
+        """Convierte una expresión infija a postfija usando una pila
+        Algoritmo de Dijkstra (Shunting Yard)
+        """
+        try:
+            pila_operadores = Pila()
+            resultado = ""
+            if not self.__infija_formateada:
+                raise ValueError("no se ha llamado a la funcion 'in_fija' para separar la expresión")
+            tokens = self.__infija_formateada.split()
+            for token in tokens:
+                if self.__es_dígito(token[0]):
+                    if resultado:
+                        resultado += " "
+                    resultado += token
+                elif token == '(':
+                    pila_operadores.apilar(token)
+                elif token == ')':
+                    while not pila_operadores.es_vacia() and pila_operadores.cima() != '(':
+                        op = pila_operadores.desapilar()
+                        if resultado:
+                            resultado += " "
+                        resultado += op
+                    pila_operadores.desapilar()
+                elif self.__es_operador(token):
+                    if token == '^':
+                        while (not pila_operadores.es_vacia() and
+                               pila_operadores.cima() != '(' and
+                               self.__precedencia(pila_operadores.cima()) > self.__precedencia(token)):
+                            op = pila_operadores.desapilar()
+                            if resultado:
+                                resultado += " "
+                            resultado += op
+                    else:
+                        while (not pila_operadores.es_vacia() and
+                               pila_operadores.cima() != '(' and
+                               self.__precedencia(pila_operadores.cima()) >= self.__precedencia(token)):
+                            op = pila_operadores.desapilar()
+                            if resultado:
+                                resultado += " "
+                            resultado += op
+                    pila_operadores.apilar(token)
+
+            while not pila_operadores.es_vacia():
+                op = pila_operadores.desapilar()
+                if resultado:
+                    resultado += " "
+                resultado += op
+
+            return resultado
+        except Exception as e:
+            raise ValueError(f"Error en post_fija: {e}")
+
+    def eval_expr_aritmetica(self) -> float:
+        """Evaluación de la expresión aritmética en notación Postfija,
+        utilizando una Pila, calculando el resultado final de la expresión."""
+        try:
+            postfija = self.post_fija()
+            tokens = postfija.split()
+            pila_datos = Pila()
+            i = 0
+            while i < len(tokens):
+                token = tokens[i]
+                if self.__es_dígito(token[0]):
+                    pila_datos.apilar(float(token))
+                elif self.__es_operador(token):
+                    operando1 = pila_datos.desapilar()
+                    operando2 = pila_datos.desapilar()
+                    if token == '+':
+                        resultado = operando2 + operando1
+                    elif token == '-':
+                        resultado = operando2 - operando1
+                    elif token == '*':
+                        resultado = operando2 * operando1
+                    elif token == '/':
+                        if operando1 == 0:
+                            raise ZeroDivisionError("No se puede dividir por 0")
+                        resultado = operando2 / operando1
+                    elif token == '^':
+                        resultado = operando2 ** operando1
+                    pila_datos.apilar(resultado)
+                i += 1
+            resultado = pila_datos.desapilar()
+            return resultado if resultado is not None else 0.0
+        except Exception as e:
+            raise ValueError(f"Error en evaluando_valor: {e}")

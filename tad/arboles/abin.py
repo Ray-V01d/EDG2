@@ -1,4 +1,5 @@
 from tad.arboles.nodos import NodoArbolBinario as NAB
+from random import choice
 
 
 class ArbolBinario:
@@ -11,3 +12,25 @@ class ArbolBinario:
     def __agregar(self, sub_arbol, nueva_clave):
         if sub_arbol is None:
             sub_arbol = NAB(nueva_clave)
+
+        if choice([True, False]):
+            sub_arbol.izq = self.__agregar(sub_arbol.izq, nueva_clave)
+        else:
+            sub_arbol.der = self.__agregar(sub_arbol.der, nueva_clave)
+        return sub_arbol
+    
+    def buscar(self, clave_buscar):
+        return self.__buscar(self.raiz, clave_buscar)
+
+    def __buscar(self, sub_arbol, clave_buscar):
+        if sub_arbol is None:
+            return None
+        elif sub_arbol.clave == clave_buscar:
+            return sub_arbol.clave
+        izq = self.__buscar(sub_arbol.izq, clave_buscar)
+        if izq is not None:
+            return izq
+        der = self.__buscar(sub_arbol.der, clave_buscar)
+        if der is not None:
+            return der
+        return None
