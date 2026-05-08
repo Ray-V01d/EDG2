@@ -44,3 +44,34 @@ class ArbolBinario:
         if sub_arbol is not None:
             return 1 + self.__cantidad_nodos(sub_arbol.izq) + self.__cantidad_nodos(sub_arbol.der)
         return 0
+    
+    def hojas(self):
+        return self.__hojas(self.__raiz)
+
+    def __hojas(self, sub_arbol):
+        if sub_arbol is None:
+            return 0
+        elif sub_arbol.izq is None and sub_arbol.der is None:
+            return 1
+        else:
+            return self.__hojas(sub_arbol.izq) + self.__hojas(sub_arbol.der)
+    
+    def internos(self):
+        return self.__internos(self.__raiz)
+    
+    def __internos(self, sub_arbol):
+        if sub_arbol is None:
+            return 0
+        elif sub_arbol.izq is not None or sub_arbol.der is not None:
+            return 1 + self.__internos(sub_arbol.izq) + self.__internos(sub_arbol.der)
+        else:
+            return 0
+
+    def altura(self):
+        return self.__altura(self.__raiz)
+    
+    def __altura(self, sub_arbol):
+        if sub_arbol is None:
+            return -1
+        else:
+            return 1 + max(self.__altura(sub_arbol.izq), self.__altura(sub_arbol.der))
